@@ -7,7 +7,7 @@ const Home = () => {
         <div
           className="h-4/5 flex items-end justify-start relative"
           style={{
-            backgroundImage: 'url("./public/home-bg.jpg")',
+            backgroundImage: 'url("./home-bg.jpg")',
             backgroundSize: "cover",
             backgroundPosition: "center",
             borderRadius: "30px",
