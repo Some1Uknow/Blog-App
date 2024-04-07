@@ -9,7 +9,7 @@ const Home = () => {
           TechReads
         </p>
         <div className="flex gap-4 ">
-          <button className=" text-black font-normal">Login</button>
+          <button className=" text-black font-normal"><a href="/login">Login</a></button>
           <button className="btn text-white font-normal">Register</button>
         </div>
       </div>
