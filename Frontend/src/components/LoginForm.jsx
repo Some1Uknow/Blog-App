@@ -6,7 +6,7 @@ export default function LoginForm() {
       <div className="flex flex-row justify-center w-1/2 items-center">
         <div className="flex items-center h-screen w-3/4 ">
           <div className="w-full rounded shadow-lg p-8 m-4 bg-white flex flex-col items-center">
-            <span className="block w-full text-xl uppercase font-bold mb-4">
+            <span className="block w-full text-2xl text-black uppercase font-bold mb-4">
               Login
             </span>
             <form
@@ -32,7 +32,7 @@ export default function LoginForm() {
                   placeholder="Password"
                 />
               </div>
-              <button className="btn btn-primary w-max px-10">Login</button>
+              <button className="btn text-white text-xl w-max px-10">Login</button>
             </form>
             <a className="text-blue-700 text-center text-sm" href="/login">
               Forgot password?
