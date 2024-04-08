@@ -2,10 +2,10 @@ import { MdComputer } from "react-icons/md";
 
 export default function LoginForm() {
   return (
-    <div className="w-screen h-screen flex flex-row justify-between bg-white">
+    <div className="w-screen h-screen flex flex-row justify-between bg-gray-200">
       <div className="flex flex-row justify-center w-1/2 items-center">
-        <div className="flex items-center h-screen w-3/4">
-          <div className="w-full rounded shadow-lg p-8 m-4 flex flex-col items-center">
+        <div className="flex items-center h-screen w-3/4 ">
+          <div className="w-full rounded shadow-lg p-8 m-4 bg-white flex flex-col items-center">
             <span className="block w-full text-xl uppercase font-bold mb-4">
               Login
             </span>
