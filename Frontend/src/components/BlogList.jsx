@@ -5,33 +5,33 @@ const BlogList = () => {
   const blogPosts = [
     {
       imgSrc: "https://flowbite.com/docs/images/blog/image-1.jpg",
-      title: "Title 1",
-      content: "Content 1",
+      title: "The Future of AI in Healthcare",
+      content: "Artificial intelligence (AI) is rapidly transforming the healthcare industry...",
     },
     {
       imgSrc: "https://flowbite.com/docs/images/blog/image-2.jpg",
-      title: "Title 2",
-      content: "Content 2",
+      title: "The Rise of Remote Work: Challenges and Opportunities",
+      content: "Remote work has become increasingly popular, especially in the tech industry...",
     },
     {
       imgSrc: "https://flowbite.com/docs/images/blog/image-3.jpg",
-      title: "Title 3",
-      content: "Content 3",
+      title: "Blockchain: Beyond Cryptocurrencies",
+      content: "Blockchain technology is revolutionizing various industries beyond cryptocurrencies...",
     },
     {
       imgSrc: "https://flowbite.com/docs/images/blog/image-4.jpg",
-      title: "Title 4",
-      content: "Content 4",
+      title: "The Impact of 5G on IoT",
+      content: "The deployment of 5G networks is set to revolutionize the Internet of Things (IoT) landscape...",
     },
     {
       imgSrc: "https://flowbite.com/docs/images/blog/image-2.jpg",
-      title: "Title 5",
-      content: "Content 5",
+      title: "The Future of Quantum Computing",
+      content: "Quantum computing promises to bring about a new era of computing power...",
     },
     {
       imgSrc: "https://flowbite.com/docs/images/blog/image-1.jpg",
-      title: "Title 6",
-      content: "Content 6",
+      title: "Augmented Reality: Transforming the Way We Interact with Technology",
+      content: "Augmented reality (AR) is changing the way we perceive and interact with the world around us...",
     },
   ];
 
