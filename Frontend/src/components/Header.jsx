@@ -1,4 +1,5 @@
 import { MdComputer } from "react-icons/md";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   return (
@@ -9,8 +10,10 @@ const Home = () => {
           TechReads
         </p>
         <div className="flex gap-4 ">
-          <button className=" text-black font-normal"><a href="/login">Login</a></button>
-          <button className="btn text-white font-normal">Register</button>
+          <button className="text-black font-normal">
+            <Link to="/login">Login</Link>
+          </button>
+          <button className="btn text-white font-normal"><Link to="/register">Register</Link></button>
         </div>
       </div>
     </>
