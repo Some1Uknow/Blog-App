@@ -1,4 +1,5 @@
-
+import { motion, useAnimation } from "framer-motion";
+import { useEffect } from "react";
 import BlogPost from "./BlogPost";
 
 const BlogList = () => {
@@ -35,19 +36,52 @@ const BlogList = () => {
     },
   ];
 
+  const controlsArray = blogPosts.map(() => useAnimation());
+
+  useEffect(() => {
+    const handleScroll = () => {
+      controlsArray.forEach((controls, index) => {
+        const top = document.documentElement.scrollTop + window.innerHeight;
+        const el = document.getElementById(`blogPost${index}`);
+        if (el && el.offsetTop < top) {
+          controls.start({ opacity: 1 });
+        }
+      });
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    handleScroll(); 
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [controlsArray]);
+
   return (
     <div className="px-20">
       <h1 className="text-xl font-semibold pb-5">Recent Blog Posts</h1>
-      <div className="flex flex-row flex-wrap">
+      <motion.div
+        className="flex flex-row flex-wrap"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+      >
         {blogPosts.map((post, index) => (
-          <BlogPost
+          <motion.div
             key={index}
-            imgSrc={post.imgSrc}
-            title={post.title}
-            content={post.content}
-          />
+            id={`blogPost${index}`}
+            initial={{ opacity: 0 }}
+            animate={controlsArray[index]}
+            className="w-full"
+          >
+            <BlogPost
+              imgSrc={post.imgSrc}
+              title={post.title}
+              content={post.content}
+            />
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
     </div>
   );
 };
