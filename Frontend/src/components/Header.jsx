@@ -13,9 +13,10 @@ const Home = () => {
           <button className="text-black font-normal">
             <Link to="/login">Login</Link>
           </button>
-          <button className="btn m-0 text-white font-normal">
-            <Link to="/register">Register</Link>
-          </button>
+          <Link to="/register">
+            {" "}
+            <button className="btn m-0 text-white font-normal">Register</button>
+          </Link>
         </div>
       </div>
     </>
