@@ -76,7 +76,7 @@ export default function LoginForm() {
         />
         <h1 className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white text-8xl font-bold flex flex-row items-center">
           <MdComputer className="mr-4 mt-2" />
-          TechReads
+          <Link to="/">TechReads</Link>
         </h1>
       </motion.div>
     </div>
