@@ -23,11 +23,9 @@ export default function RegisterForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = { username, email, password };
-  
+
     try {
       const res = await axios.post("http://localhost:3000/register", formData);
-      console.log(res.data);
-  
       if (res.status == 200) {
         console.log("Registration success");
       } else {
@@ -36,7 +34,7 @@ export default function RegisterForm() {
     } catch (error) {
       console.log("Error registering", error);
     }
-  };  
+  };
 
   return (
     <div className="w-screen h-screen flex flex-row justify-between bg-gray-200">
