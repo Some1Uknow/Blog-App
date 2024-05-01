@@ -1,8 +1,29 @@
-import { MdComputer } from "react-icons/md";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
+import { MdComputer } from "react-icons/md";
+import axios from "axios";
 
 export default function LoginForm() {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await axios.post("http://localhost:3000/login", {
+        username,
+        password,
+      });
+
+      // Handle successful login (e.g., redirect to dashboard)
+      console.log("Login successful", response.data);
+    } catch (error) {
+      console.log("Error logging in:", error);
+    }
+  };
+
   return (
     <div className="w-screen h-screen flex flex-row justify-between bg-gray-200">
       <div className="flex flex-row justify-center w-1/2 items-center">
@@ -20,16 +41,17 @@ export default function LoginForm() {
               </span>
               <form
                 className="mb-4 w-full flex flex-col items-center"
-                action="/"
-                method="post"
+                onSubmit={handleSubmit}
               >
                 <div className="mb-4 w-full">
                   <input
                     className="input w-full border-b-2 p-2 outline-none focus:shadow-outline bg-gray-100"
-                    type="email"
-                    name="email"
-                    id="email"
-                    placeholder="Username or Email"
+                    type="text"
+                    name="username"
+                    id="username"
+                    placeholder="Enter your Username"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
                   />
                 </div>
                 <div className="mb-6 w-full">
@@ -39,9 +61,14 @@ export default function LoginForm() {
                     name="password"
                     id="password"
                     placeholder="Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                   />
                 </div>
-                <button className="btn text-white text-xl w-max px-10">
+                <button
+                  type="submit"
+                  className="btn text-white text-xl w-max px-10"
+                >
                   Login
                 </button>
               </form>
@@ -52,10 +79,10 @@ export default function LoginForm() {
                 Forgot Password?
               </Link>
               <Link
-                className="btn btn-primary  text-center text-sm mt-5"
+                className="btn btn-primary text-center text-sm mt-5"
                 to="/register"
               >
-                Dont have an account? Register here
+                Don't have an account? Register here
               </Link>
             </motion.div>
           </AnimatePresence>

@@ -1,8 +1,43 @@
 import { MdComputer } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import { useState } from "react";
+import axios from "axios";
 
 export default function RegisterForm() {
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleInput = (e) => {
+    const { name, value } = e.target;
+    if (name === "username") {
+      setUsername(value);
+    } else if (name === "email") {
+      setEmail(value);
+    } else if (name === "password") {
+      setPassword(value);
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const formData = { username, email, password };
+  
+    try {
+      const res = await axios.post("http://localhost:3000/register", formData);
+      console.log(res.data);
+  
+      if (res.status == 200) {
+        console.log("Registration success");
+      } else {
+        console.log("Registration failed...");
+      }
+    } catch (error) {
+      console.log("Error registering", error);
+    }
+  };  
+
   return (
     <div className="w-screen h-screen flex flex-row justify-between bg-gray-200">
       <motion.div
@@ -19,7 +54,7 @@ export default function RegisterForm() {
         />
         <h1 className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white text-8xl font-bold flex flex-row items-center">
           <MdComputer className="mr-4 mt-2" />
-          <Link to="/">TechReads</Link> 
+          <Link to="/">TechReads</Link>
         </h1>
       </motion.div>
       <div className="flex flex-row justify-center w-1/2 items-center">
@@ -36,16 +71,28 @@ export default function RegisterForm() {
             </span>
             <form
               className="mb-4 w-full flex flex-col items-center"
-              action="/"
-              method="post"
+              onSubmit={handleSubmit}
             >
+              <div className="mb-4 w-full">
+                <input
+                  className="input w-full border-b-2 p-2 outline-none focus:shadow-outline bg-gray-100"
+                  type="text"
+                  name="username"
+                  id="username"
+                  placeholder="Username"
+                  onChange={handleInput}
+                  value={username}
+                />
+              </div>
               <div className="mb-4 w-full">
                 <input
                   className="input w-full border-b-2 p-2 outline-none focus:shadow-outline bg-gray-100"
                   type="email"
                   name="email"
                   id="email"
-                  placeholder="Username or Email"
+                  placeholder="Email"
+                  onChange={handleInput}
+                  value={email}
                 />
               </div>
               <div className="mb-6 w-full">
@@ -55,9 +102,14 @@ export default function RegisterForm() {
                   name="password"
                   id="password"
                   placeholder="Password"
+                  onChange={handleInput}
+                  value={password}
                 />
               </div>
-              <button className="btn text-white text-xl w-max px-10">
+              <button
+                type="submit"
+                className="btn text-white text-xl w-max px-10"
+              >
                 Register
               </button>
             </form>
