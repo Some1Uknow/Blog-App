@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { MdComputer } from "react-icons/md";
 import axios from "axios";
@@ -7,20 +7,29 @@ import axios from "axios";
 export default function LoginForm() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [redirect, setRedirect] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await axios.post("http://localhost:3000/login", {
-        username,
-        password,
-      });
-
-      // Handle successful login (e.g., redirect to dashboard)
+      const response = await axios.post(
+        "http://localhost:3000/login",
+        {
+          username,
+          password,
+        },
+        { withCredentials: true }
+      );
+      if (response.status === 200) {
+        setRedirect(true);
+      } else {
+        alert("Wrong credentials");
+      }
       console.log("Login successful", response.data);
     } catch (error) {
       console.log("Error logging in:", error);
+      alert("Error logging in. Please try again.");
     }
   };
 
@@ -106,6 +115,8 @@ export default function LoginForm() {
           <Link to="/">TechReads</Link>
         </h1>
       </motion.div>
+
+      {redirect && <Navigate to="/" />}
     </div>
   );
 }
