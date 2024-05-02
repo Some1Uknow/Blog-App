@@ -4,14 +4,16 @@ import App from "./App.jsx";
 import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import ErrorPage from "./error-page.jsx";
-import LoginForm from "./components/LoginForm.jsx";
-import RegisterForm from "./components/RegisterForm.jsx";
+import LoginForm from "./Pages/LoginForm.jsx";
+import RegisterForm from "./Pages/RegisterForm.jsx";
+import { UserContextProvider } from "./Provider.jsx";
+import CreatePage from "./Pages/CreatePage.jsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
-    errorElement: <ErrorPage />, 
+    errorElement: <ErrorPage />,
   },
   {
     path: "/login",
@@ -21,10 +23,16 @@ const router = createBrowserRouter([
     path: "/register",
     element: <RegisterForm />,
   },
+  {
+    path: "/create",
+    element: <CreatePage />,
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <UserContextProvider>
+      <RouterProvider router={router} />
+    </UserContextProvider>
   </React.StrictMode>
 );
