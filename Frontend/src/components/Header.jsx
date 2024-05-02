@@ -1,35 +1,20 @@
-import { useState, useEffect } from "react";
+import { useContext } from "react";
 import { MdComputer } from "react-icons/md";
 import { Link } from "react-router-dom";
+import { UserContext } from "../Provider";
 
 const Home = () => {
-  const [username, setUsername] = useState(null);
+  const { user, setUser } = useContext(UserContext);
 
-  useEffect(() => {
-    fetch("http://localhost:3000/profile", {
-      credentials: "include",
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Failed to fetch user information");
-        }
-        return response.json();
-      })
-      .then((userInfo) => {
-        setUsername(userInfo.username);
-      })
-      .catch((error) => {
-        console.error("Error fetching user information:", error);
-      });
-  }, []);
-
-  function LogOut() {
+  function logOut() {
     fetch("http://localhost:3000/logout", {
       credentials: "include",
       method: "POST",
     });
-    setUsername(null);
+    setUser(null);
   }
+
+  const username = user?.username;
 
   return (
     <>
@@ -41,11 +26,11 @@ const Home = () => {
         {username ? (
           <div className="flex flex-row gap-4 ">
             <button className="text-black font-normal">
-              <Link to="/new-post">New Post</Link>
+              <Link to="/create">Create New Post</Link>
             </button>
-            <a onClick={LogOut}>
-              <button className="btn m-0 text-white font-normal">Logout</button>
-            </a>
+            <button className="btn m-0 text-white font-normal" onClick={logOut}>
+              Logout
+            </button>
           </div>
         ) : (
           <div className="flex flex-row gap-4 ">
@@ -53,9 +38,7 @@ const Home = () => {
               <Link to="/login">Login</Link>
             </button>
             <Link to="/register">
-              <button className="btn m-0 text-white font-normal">
-                Register
-              </button>
+              <button className="btn m-0 text-white font-normal">Register</button>
             </Link>
           </div>
         )}
