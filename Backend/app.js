@@ -91,3 +91,7 @@ app.get("/profile", (req, res) => {
     res.status(200).json(info);
   });
 });
+
+app.post("/logout", (req, res)=> {
+  res.cookie('token', '').json("Logged Out");
+})
