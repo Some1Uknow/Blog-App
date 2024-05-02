@@ -1,13 +1,15 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { MdComputer } from "react-icons/md";
 import axios from "axios";
+import { UserContext } from "../Provider";
 
 export default function LoginForm() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [redirect, setRedirect] = useState(false);
+  const { setUser } = useContext(UserContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,11 +24,12 @@ export default function LoginForm() {
         { withCredentials: true }
       );
       if (response.status === 200) {
+        setUser(response.data);
         setRedirect(true);
+        console.log("Login successful", response.data);
       } else {
         alert("Wrong credentials");
       }
-      console.log("Login successful", response.data);
     } catch (error) {
       console.log("Error logging in:", error);
       alert("Error logging in. Please try again.");
