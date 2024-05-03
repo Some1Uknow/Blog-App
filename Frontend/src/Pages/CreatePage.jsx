@@ -39,20 +39,26 @@ export default function CreatePage() {
   ];
 
   const handleSubmit = (e) => {
+    e.preventDefault();
     const data = new FormData();
     data.set("title", title);
     data.set("summary", summary);
     data.set("content", content);
     data.set("file", files[0]);
-    e.preventDefault();
-    axios.post("http://localhost:3000/post", data);
+
+    axios.post("http://localhost:3000/post", data, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
   };
 
   return (
     <div className="bg-gray-100 flex justify-center h-screen w-screen">
       <form
-        onSubmit={handleSubmit}
+        onSubmit={(e) => handleSubmit(e)}
         className="flex flex-col gap-2 mt-10 w-11/12 "
+        encType="multipart/form-data"
       >
         <input
           placeholder="Title"
