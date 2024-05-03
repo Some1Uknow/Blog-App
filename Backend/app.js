@@ -113,21 +113,31 @@ app.post("/logout", (req, res) => {
 });
 
 app.post("/post", upload.single("file"), async (req, res) => {
+  const { token } = req.cookies;
   const filePath = req.file.path;
   const { title, summary, content } = req.body;
-  try {
-    const blogData = await blogModel.create({
-      title,
-      summary,
-      content,
-      imagePath: filePath,
-    });
-    res.status(200).json({ message: "File uploaded successfully", blogData });
-  } catch (error) {
-    console.log("cannot upload blogdata", error);
-    res.status(400).json({ message: "Cannot upload blogdata" });
-  }
+  jwt.verify(token, process.env.JWT, {}, async (err, info) => {
+    if (err) {
+      console.error(err);
+      return res.status(401).json({ message: "Invalid token" });
+    }
+
+    try {
+      const blogData = await blogModel.create({
+        title,
+        summary,
+        content,
+        imagePath: filePath,
+        author: info.id,
+      });
+      res.status(200).json({ message: "File uploaded successfully", blogData });
+    } catch (error) {
+      console.log("cannot upload blogdata", error);
+      res.status(400).json({ message: "Cannot upload blogdata" });
+    }
+  });
 });
+
 
 app.get("/blogs", async (req, res) => {
   try {
