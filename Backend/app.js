@@ -9,12 +9,11 @@ import multer from "multer";
 import cookieParser from "cookie-parser";
 import blogModel from "./schemas/blog.js";
 
-
 var saltRounds = 10;
 const app = express();
 const port = 3000;
 app.use(cookieParser());
-app.use("/uploads", express.static('uploads'));
+app.use("/uploads", express.static("uploads"));
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -77,10 +76,7 @@ app.post("/login", async (req, res) => {
         process.env.JWT,
         {},
         (err, token) => {
-          if (err) {
-            console.error(err);
-            return res.status(500).json({ message: "Internal server error" });
-          }
+          if (err) throw err;
           res
             .cookie("token", token)
             .status(200)
@@ -117,6 +113,7 @@ app.post("/post", upload.single("file"), async (req, res) => {
   const filePath = req.file.path;
   const { title, summary, content } = req.body;
   jwt.verify(token, process.env.JWT, {}, async (err, info) => {
+    console.log(info);
     if (err) {
       console.error(err);
       return res.status(401).json({ message: "Invalid token" });
@@ -131,13 +128,13 @@ app.post("/post", upload.single("file"), async (req, res) => {
         author: info.id,
       });
       res.status(200).json({ message: "File uploaded successfully", blogData });
+      console.log("uploaded blog");
     } catch (error) {
       console.log("cannot upload blogdata", error);
       res.status(400).json({ message: "Cannot upload blogdata" });
     }
   });
 });
-
 
 app.get("/blogs", async (req, res) => {
   try {
@@ -148,4 +145,3 @@ app.get("/blogs", async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 });
-

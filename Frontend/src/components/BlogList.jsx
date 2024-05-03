@@ -18,7 +18,7 @@ const BlogList = () => {
     fetchData();
   }, []);
 
-  console.log(blogPosts);
+ // console.log(blogPosts);
 
   return (
     <div className="px-20">

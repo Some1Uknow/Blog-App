@@ -3,9 +3,9 @@ import { Link } from "react-router-dom";
 
 const BlogPost = ({ imgSrc, title, content, id, author, createdAt }) => {
 
-  useEffect(() => {
-    const res = fetch(`http://localhost:3000/users`)
-  }, [])
+  // useEffect(() => {
+  //   const res = fetch(`http://localhost:3000/users`)
+  // }, [])
   
 
   const imgPath = `http://localhost:3000/${imgSrc}`;
