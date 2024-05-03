@@ -1,8 +1,7 @@
 import { useContext, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { MdComputer } from "react-icons/md";
-import axios from "axios";
+import { MdComputer } from "react-icons/md"
 import { UserContext } from "../Provider";
 
 export default function LoginForm() {
@@ -13,20 +12,25 @@ export default function LoginForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     try {
-      const response = await axios.post(
-        "http://localhost:3000/login",
-        {
+      const response = await fetch("http://localhost:3000/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
           username,
           password,
-        },
-        { withCredentials: true }
-      );
+        }),
+        credentials: "include",
+      });
+  
       if (response.status === 200) {
-        setUser(response.data);
+        const data = await response.json();
+        setUser(data);
         setRedirect(true);
-        console.log("Login successful", response.data);
+        console.log("Login successful", data);
       } else {
         alert("Wrong credentials");
       }
@@ -35,6 +39,10 @@ export default function LoginForm() {
       alert("Error logging in. Please try again.");
     }
   };
+
+ // console.log(data);
+  
+  if (redirect) return <Navigate to={'/'}/>
 
   return (
     <div className="w-screen h-screen flex flex-row justify-between bg-gray-200">
@@ -118,8 +126,6 @@ export default function LoginForm() {
           <Link to="/">TechReads</Link>
         </h1>
       </motion.div>
-
-      {redirect && <Navigate to="/" />}
     </div>
   );
 }

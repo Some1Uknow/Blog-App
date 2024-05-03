@@ -1,14 +1,14 @@
 import ReactQuill from "react-quill";
 import { useState } from "react";
 import "react-quill/dist/quill.snow.css";
-import axios from "axios";
-import { MdTimer3 } from "react-icons/md";
+import { Navigate } from "react-router-dom";
 
 export default function CreatePage() {
   const [title, settitle] = useState("");
   const [summary, setsummary] = useState("");
   const [files, setfiles] = useState("");
   const [content, setContent] = useState("");
+  const [redirect, setredirect] = useState(false);
 
   const modules = {
     toolbar: [
@@ -39,7 +39,7 @@ export default function CreatePage() {
     "image",
   ];
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const data = new FormData();
     data.set("title", title);
@@ -47,20 +47,22 @@ export default function CreatePage() {
     data.set("content", content);
     data.set("file", files[0]);
 
-    axios.post("http://localhost:3000/post", data, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-      withCredentials: true,
-    });
+   const res = await fetch("http://localhost:3000/post", {
+      method: "POST",
+      body: data,
+      credentials: "include",
+    })
+
+    if (res.status === 200) setredirect(true);
   };
+
+  if (redirect) return <Navigate to={"/"}/>
 
   return (
     <div className="bg-gray-100 flex justify-center h-screen w-screen">
       <form
         onSubmit={(e) => handleSubmit(e)}
         className="flex flex-col gap-2 mt-10 w-11/12 "
-        encType="multipart/form-data"
       >
         <input
           placeholder="Title"
