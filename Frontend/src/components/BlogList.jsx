@@ -1,87 +1,42 @@
-import { motion, useAnimation } from "framer-motion";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
 import BlogPost from "./BlogPost";
 
 const BlogList = () => {
-  const blogPosts = [
-    {
-      imgSrc: "https://flowbite.com/docs/images/blog/image-1.jpg",
-      title: "The Future of AI in Healthcare",
-      content: "Artificial intelligence (AI) is rapidly transforming the healthcare industry...",
-    },
-    {
-      imgSrc: "https://flowbite.com/docs/images/blog/image-2.jpg",
-      title: "The Rise of Remote Work: Challenges and Opportunities",
-      content: "Remote work has become increasingly popular, especially in the tech industry...",
-    },
-    {
-      imgSrc: "https://flowbite.com/docs/images/blog/image-3.jpg",
-      title: "Blockchain: Beyond Cryptocurrencies",
-      content: "Blockchain technology is revolutionizing various industries beyond cryptocurrencies...",
-    },
-    {
-      imgSrc: "https://flowbite.com/docs/images/blog/image-4.jpg",
-      title: "The Impact of 5G on IoT",
-      content: "The deployment of 5G networks is set to revolutionize the Internet of Things (IoT) landscape...",
-    },
-    {
-      imgSrc: "https://flowbite.com/docs/images/blog/image-2.jpg",
-      title: "The Future of Quantum Computing",
-      content: "Quantum computing promises to bring about a new era of computing power...",
-    },
-    {
-      imgSrc: "https://flowbite.com/docs/images/blog/image-1.jpg",
-      title: "Augmented Reality: Transforming the Way We Interact with Technology",
-      content: "Augmented reality (AR) is changing the way we perceive and interact with the world around us...",
-    },
-  ];
-
-  const controlsArray = blogPosts.map(() => useAnimation());
+  const [blogPosts, setBlogPosts] = useState([]);
 
   useEffect(() => {
-    const handleScroll = () => {
-      controlsArray.forEach((controls, index) => {
-        const top = document.documentElement.scrollTop + window.innerHeight;
-        const el = document.getElementById(`blogPost${index}`);
-        if (el && el.offsetTop < top) {
-          controls.start({ opacity: 1 });
-        }
-      });
+    const fetchData = async () => {
+      try {
+        const response = await axios.get("http://localhost:3000/blogs");
+        setBlogPosts(response.data);
+      } catch (error) {
+        console.error("Error fetching blog posts:", error);
+      }
     };
 
-    window.addEventListener("scroll", handleScroll);
-    handleScroll(); 
+    fetchData();
+  }, []);
 
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [controlsArray]);
+  console.log(blogPosts);
 
   return (
     <div className="px-20">
       <h1 className="text-xl font-semibold pb-5">Recent Blog Posts</h1>
-      <motion.div
-        className="flex flex-row flex-wrap"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.5 }}
-      >
-        {blogPosts.map((post, index) => (
-          <motion.div
-            key={index}
-            id={`blogPost${index}`}
-            initial={{ opacity: 0 }}
-            animate={controlsArray[index]}
-            className="w-full"
-          >
+      <div className="flex flex-row flex-wrap">
+        {blogPosts.map((post) => (
+          <div key={post._id} className="w-full">
             <BlogPost
-              imgSrc={post.imgSrc}
+              id={post._id}
+              imgSrc={post.imagePath}
               title={post.title}
               content={post.content}
+              createdAt={post.createdAt}
+              author={post.author}
             />
-          </motion.div>
+          </div>
         ))}
-      </motion.div>
+      </div>
     </div>
   );
 };
