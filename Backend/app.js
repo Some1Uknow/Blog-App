@@ -5,12 +5,28 @@ import User from "./schemas/user.js";
 import bcrypt from "bcryptjs";
 import connectDB from "./utils/mongodb.js";
 import jwt from "jsonwebtoken";
+import multer from "multer";
 import cookieParser from "cookie-parser";
+import blogModel from "./schemas/blog.js";
+
 
 var saltRounds = 10;
 const app = express();
 const port = 3000;
 app.use(cookieParser());
+app.use("/uploads", express.static('uploads'));
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "./uploads");
+  },
+  filename: function (req, file, cb) {
+    const fileName = Date.now() + "-" + file.originalname;
+    cb(null, fileName);
+  },
+});
+
+const upload = multer({ storage: storage });
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
@@ -68,7 +84,7 @@ app.post("/login", async (req, res) => {
           res
             .cookie("token", token)
             .status(200)
-            .json("Login was a success (backend)");
+            .json({ id: userData._id, username });
         }
       );
     } else {
@@ -92,6 +108,34 @@ app.get("/profile", (req, res) => {
   });
 });
 
-app.post("/logout", (req, res)=> {
-  res.cookie('token', '').json("Logged Out");
-})
+app.post("/logout", (req, res) => {
+  res.cookie("token", "").json("Logged Out");
+});
+
+app.post("/post", upload.single("file"), async (req, res) => {
+  const filePath = req.file.path;
+  const { title, summary, content } = req.body;
+  try {
+    const blogData = await blogModel.create({
+      title,
+      summary,
+      content,
+      imagePath: filePath,
+    });
+    res.status(200).json({ message: "File uploaded successfully", blogData });
+  } catch (error) {
+    console.log("cannot upload blogdata", error);
+    res.status(400).json({ message: "Cannot upload blogdata" });
+  }
+});
+
+app.get("/blogs", async (req, res) => {
+  try {
+    const blogPosts = await blogModel.find({});
+    res.status(200).json(blogPosts);
+  } catch (error) {
+    console.error("Error fetching blog posts:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
