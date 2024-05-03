@@ -2,6 +2,7 @@ import ReactQuill from "react-quill";
 import { useState } from "react";
 import "react-quill/dist/quill.snow.css";
 import axios from "axios";
+import { MdTimer3 } from "react-icons/md";
 
 export default function CreatePage() {
   const [title, settitle] = useState("");
@@ -50,6 +51,7 @@ export default function CreatePage() {
       headers: {
         "Content-Type": "multipart/form-data",
       },
+      withCredentials: true,
     });
   };
 
