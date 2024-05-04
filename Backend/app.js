@@ -11,7 +11,6 @@ import blogModel from "./schemas/blog.js";
 
 var saltRounds = 10;
 const app = express();
-const port = 3000;
 app.use(cookieParser());
 app.use("/uploads", express.static("uploads"));
 
@@ -27,8 +26,8 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+app.listen(process.env.PORT, () => {
+  console.log(`Server is running on port ${process.env.PORT}`);
 });
 
 app.get("/", (req, res) => {
