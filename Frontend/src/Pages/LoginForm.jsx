@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { MdComputer } from "react-icons/md"
+import { MdComputer } from "react-icons/md";
 import { UserContext } from "../Provider";
 
 export default function LoginForm() {
@@ -12,7 +12,7 @@ export default function LoginForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     try {
       const response = await fetch("http://localhost:3000/login", {
         method: "POST",
@@ -25,7 +25,7 @@ export default function LoginForm() {
         }),
         credentials: "include",
       });
-  
+
       if (response.status === 200) {
         const data = await response.json();
         setUser(data);
@@ -40,9 +40,9 @@ export default function LoginForm() {
     }
   };
 
- // console.log(data);
-  
-  if (redirect) return <Navigate to={'/'}/>
+  // console.log(data);
+
+  if (redirect) return <Navigate to={"/"} />;
 
   return (
     <div className="w-screen h-screen flex flex-row justify-between bg-gray-200">
@@ -87,7 +87,7 @@ export default function LoginForm() {
                 </div>
                 <button
                   type="submit"
-                  className="btn text-white text-xl w-max px-10"
+                  className="bg-black p-3 rounded-lg text-white text-xl w-max px-10"
                 >
                   Login
                 </button>
@@ -99,7 +99,7 @@ export default function LoginForm() {
                 Forgot Password?
               </Link>
               <Link
-                className="btn btn-primary text-center text-sm mt-5"
+                className=" bg-blue-400 rounded-lg p-3 text-white text-center text-sm mt-5"
                 to="/register"
               >
                 Don't have an account? Register here

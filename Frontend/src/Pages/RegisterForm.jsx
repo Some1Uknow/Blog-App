@@ -106,7 +106,7 @@ export default function RegisterForm() {
               </div>
               <button
                 type="submit"
-                className="btn text-white text-xl w-max px-10"
+                className=" bg-black p-3 rounded-lg text-white text-xl w-max px-10"
               >
                 Register
               </button>
