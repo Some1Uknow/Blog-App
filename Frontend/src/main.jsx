@@ -8,6 +8,7 @@ import LoginForm from "./Pages/LoginForm.jsx";
 import RegisterForm from "./Pages/RegisterForm.jsx";
 import { UserContextProvider } from "./Provider.jsx";
 import CreatePage from "./Pages/CreatePage.jsx";
+import BlogPage from "./Pages/BlogPage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
   {
     path: "/create",
     element: <CreatePage />,
+  },
+  {
+    path: "/blogpost/:id",
+    element: <BlogPage/>,
   },
 ]);
 
