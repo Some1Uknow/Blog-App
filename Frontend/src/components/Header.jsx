@@ -5,18 +5,20 @@ import { UserContext } from "../Provider";
 
 const Header = () => {
   const { user, setUser } = useContext(UserContext);
-  const [loggedIn, setloggedIn] = useState(false);
 
-  useEffect(() => {
+  const fetchUserProfile = async () => {
     fetch(`${import.meta.env.VITE_BASE_URL}/profile`, {
       credentials: "include",
     }).then((response) => {
       response.json().then((userInfo) => {
         setUser(userInfo);
-        setloggedIn(true);
       });
     });
-  }, [loggedIn]);
+  }
+
+  useEffect(() => {
+  fetchUserProfile();
+  }, []);
 
   function logOut() {
     fetch(`${import.meta.env.VITE_BASE_URL}/logout`, {
