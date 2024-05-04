@@ -9,13 +9,13 @@ const BlogPage = () => {
   useEffect(() => {
     const fetchBlog = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/blogs/${id}`);
+        const response = await fetch(`${import.meta.env.VITE_BASE_URL}/blogs/${id}`);
         const blogData = await response.json();
         setBlog(blogData);
 
         const authorId = blogData.author;
         const userResponse = await fetch(
-          `http://localhost:3000/users/${authorId}`
+          `${import.meta.env.VITE_BASE_URL}/users/${authorId}`
         );
         const userData = await userResponse.json();
         setUsername(userData.userDetails.username);
@@ -44,7 +44,7 @@ const BlogPage = () => {
 
         <img
           className="mb-4 w-full"
-          src={`http://localhost:3000/${blog.imagePath}`}
+          src={`${import.meta.env.VITE_BASE_URL}/${blog.imagePath}`}
           alt="blog-image"
         />
         <span className="prose" dangerouslySetInnerHTML={{ __html: blog.content }}></span>

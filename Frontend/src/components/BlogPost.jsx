@@ -13,7 +13,7 @@ const BlogPost = ({
   const [username, setUsername] = useState("");
   const fetchUser = async () => {
     try {
-      const response = await fetch(`http://localhost:3000/users/${author}`);
+      const response = await fetch(`${import.meta.env.VITE_BASE_URL}/users/${author}`);
       const user = await response.json();
       setUsername(user.userDetails.username);
     } catch (error) {
@@ -25,7 +25,7 @@ const BlogPost = ({
     fetchUser();
   }, []);
 
-  const imgPath = `http://localhost:3000/${imgSrc}`;
+  const imgPath = `${import.meta.env.VITE_BASE_URL}/${imgSrc}`;
 
   return (
     <div className="pr-10 mb-8 flex h-72">
@@ -48,7 +48,6 @@ const BlogPost = ({
           <div className="font-normal text-gray-700 mb-3 text-xs flex-grow overflow-hidden overflow-ellipsis">
             <div
               className="overflow-ellipsis"
-              //  dangerouslySetInnerHTML={{ __html: content }}
             />
             {summary}
           </div>

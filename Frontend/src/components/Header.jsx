@@ -1,29 +1,30 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { MdComputer } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { UserContext } from "../Provider";
 
 const Header = () => {
   const { user, setUser } = useContext(UserContext);
+const [loggedIn, setloggedIn] = useState(false);
 
   useEffect(() => {
-    fetch('http://localhost:3000/profile', {
+    fetch(`${import.meta.env.VITE_BASE_URL}/profile`, {
       credentials: 'include',
     }).then(response => {
       response.json().then(userInfo => {
         setUser(userInfo);
+        setloggedIn(true);
       });
     });
-  }, []);
-
-  console.log(user);
+  }, [loggedIn]);
 
   function logOut() {
-    fetch("http://localhost:3000/logout", {
+    fetch(`${import.meta.env.VITE_BASE_URL}/logout`, {
       credentials: "include",
       method: "POST",
     });
     setUser(null);
+    setloggedIn(false);
   }
 
   const username = user?.username;
@@ -50,7 +51,7 @@ const Header = () => {
               <Link to="/login">Login</Link>
             </button>
             <Link to="/register">
-              <button className="btn m-0 text-white font-normal">Register</button>
+              <button className="btn m-0 bg-black p-3 rounded-lg text-white font-normal">Register</button>
             </Link>
           </div>
         )}

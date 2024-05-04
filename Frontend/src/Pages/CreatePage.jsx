@@ -47,7 +47,7 @@ export default function CreatePage() {
     data.set("content", content);
     data.set("file", files[0]);
 
-   const res = await fetch("http://localhost:3000/post", {
+   const res = await fetch(`${import.meta.env.VITE_BASE_URL}/post`, {
       method: "POST",
       body: data,
       credentials: "include",

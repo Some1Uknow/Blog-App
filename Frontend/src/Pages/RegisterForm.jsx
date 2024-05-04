@@ -25,7 +25,7 @@ export default function RegisterForm() {
     const formData = { username, email, password };
 
     try {
-      const res = await axios.post("http://localhost:3000/register", formData);
+      const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/register`, formData);
       if (res.status == 200) {
         console.log("Registration success");
       } else {
