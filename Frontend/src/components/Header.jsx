@@ -5,13 +5,13 @@ import { UserContext } from "../Provider";
 
 const Header = () => {
   const { user, setUser } = useContext(UserContext);
-const [loggedIn, setloggedIn] = useState(false);
+  const [loggedIn, setloggedIn] = useState(false);
 
   useEffect(() => {
     fetch(`${import.meta.env.VITE_BASE_URL}/profile`, {
-      credentials: 'include',
-    }).then(response => {
-      response.json().then(userInfo => {
+      credentials: "include",
+    }).then((response) => {
+      response.json().then((userInfo) => {
         setUser(userInfo);
         setloggedIn(true);
       });
@@ -41,7 +41,10 @@ const [loggedIn, setloggedIn] = useState(false);
             <button className="text-black font-normal">
               <Link to="/create">Create New Post</Link>
             </button>
-            <button className="bg-black p-3 rounded-lg m-0 text-white font-normal" onClick={()=> logOut()}>
+            <button
+              className="bg-black p-3 rounded-lg m-0 text-white font-normal"
+              onClick={() => logOut()}
+            >
               Logout
             </button>
           </div>
@@ -51,7 +54,9 @@ const [loggedIn, setloggedIn] = useState(false);
               <Link to="/login">Login</Link>
             </button>
             <Link to="/register">
-              <button className="btn m-0 bg-black p-3 rounded-lg text-white font-normal">Register</button>
+              <button className="btn m-0 bg-black p-3 rounded-lg text-white font-normal">
+                Register
+              </button>
             </Link>
           </div>
         )}
