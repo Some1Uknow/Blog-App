@@ -12,9 +12,11 @@ const BlogPage = () => {
         const response = await fetch(`http://localhost:3000/blogs/${id}`);
         const blogData = await response.json();
         setBlog(blogData);
-        
-        const authorId = blogData.author; 
-        const userResponse = await fetch(`http://localhost:3000/users/${authorId}`);
+
+        const authorId = blogData.author;
+        const userResponse = await fetch(
+          `http://localhost:3000/users/${authorId}`
+        );
         const userData = await userResponse.json();
         setUsername(userData.userDetails.username);
       } catch (error) {
@@ -30,12 +32,23 @@ const BlogPage = () => {
   }
 
   return (
-    <div className="container mx-auto mt-8">
-      <h1 className="text-3xl font-bold mb-4">{blog.title}</h1>
-      <p className="text-gray-600 mb-2">Author: {username}</p>
-      <p className="text-gray-600 mb-2">Created at: {new Date(blog.createdAt).toLocaleString()}</p>
-      <img className="mb-4" src={`http://localhost:3000/${blog.imgSrc}`} alt="blog-image" />
-      <div dangerouslySetInnerHTML={{ __html: blog.content }}></div>
+    <div className="bg-white">
+      <div className="mx-auto p-8 w-2/3 text-black">
+        <h1 className="text-5xl font-bold mb-4 font-NotoSans">{blog.title}</h1>
+        <div className="flex flex-row gap-4">
+          <p className="text-gray-600 mb-2">Blog Post By: {username}</p>
+          <p className="text-gray-600 mb-2">
+            Created at: {new Date(blog.createdAt).toLocaleString()}
+          </p>
+        </div>
+
+        <img
+          className="mb-4 w-full"
+          src={`http://localhost:3000/${blog.imagePath}`}
+          alt="blog-image"
+        />
+        <span className="prose" dangerouslySetInnerHTML={{ __html: blog.content }}></span>
+      </div>
     </div>
   );
 };

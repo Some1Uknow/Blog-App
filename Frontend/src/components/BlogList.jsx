@@ -18,18 +18,17 @@ const BlogList = () => {
     fetchData();
   }, []);
 
- // console.log(blogPosts);
-
   return (
-    <div className="px-20">
+    <div className="px-20 h-max">
       <h1 className="text-xl font-semibold pb-5">Recent Blog Posts</h1>
-      <div className="flex flex-row flex-wrap">
+      <div className="flex flex-col">
         {blogPosts.map((post) => (
           <div key={post._id} className="w-full">
             <BlogPost
               id={post._id}
               imgSrc={post.imagePath}
               title={post.title}
+              summary={post.summary}
               content={post.content}
               createdAt={post.createdAt}
               author={post.author}

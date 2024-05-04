@@ -40,7 +40,7 @@ const Header = () => {
             <button className="text-black font-normal">
               <Link to="/create">Create New Post</Link>
             </button>
-            <button className="btn m-0 text-white font-normal" onClick={()=> logOut()}>
+            <button className="bg-black p-3 rounded-lg m-0 text-white font-normal" onClick={()=> logOut()}>
               Logout
             </button>
           </div>
