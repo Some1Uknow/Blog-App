@@ -1,14 +1,22 @@
 import ReactQuill from "react-quill";
-import { useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import "react-quill/dist/quill.snow.css";
-import { Navigate } from "react-router-dom";
+import { Link, Navigate, useParams } from "react-router-dom";
+
+import { UserContext } from "../Provider";
 
 export default function CreatePage() {
-  const [title, settitle] = useState("");
-  const [summary, setsummary] = useState("");
-  const [files, setfiles] = useState("");
+  const { user, setUser } = useContext(UserContext);
+  const params = useParams();
+  const postId = params.id;
+  const [title, setTitle] = useState("");
+  const [summary, setSummary] = useState("");
+  const [files, setFiles] = useState("");
   const [content, setContent] = useState("");
-  const [redirect, setredirect] = useState(false);
+  const [editRedirect, seteditRedirect] = useState(false);
+  const [submitRedirect, setSubmitRedirect] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
+  const [blogData, setBlogData] = useState({});
 
   const modules = {
     toolbar: [
@@ -39,6 +47,43 @@ export default function CreatePage() {
     "image",
   ];
 
+  const fetchUserProfile = async () => {
+    fetch(`${import.meta.env.VITE_BASE_URL}/profile`, {
+      credentials: "include",
+    }).then((response) => {
+      response.json().then((userInfo) => {
+        setUser(userInfo);
+      });
+    });
+  };
+
+  useEffect(() => {
+    fetchUserProfile();
+  }, []);
+
+  const fetchBlogData = async () => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_BASE_URL}/blogs/${postId}`
+      );
+      const blogInfo = await response.json();
+      setBlogData(blogInfo);
+      setTitle(blogInfo.title);
+      setSummary(blogInfo.summary);
+      setContent(blogInfo.content);
+    } catch (error) {
+      console.error("Error fetching blog data:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchUserProfile();
+    if (postId) {
+      setIsEdit(true);
+      fetchBlogData();
+    }
+  }, []);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = new FormData();
@@ -47,19 +92,38 @@ export default function CreatePage() {
     data.set("content", content);
     data.set("file", files[0]);
 
-   const res = await fetch(`${import.meta.env.VITE_BASE_URL}/post`, {
+    const res = await fetch(`${import.meta.env.VITE_BASE_URL}/post`, {
       method: "POST",
       body: data,
       credentials: "include",
-    })
+    });
 
-    if (res.status === 200) setredirect(true);
+    if (res.status === 200) setSubmitRedirect(true);
   };
 
-  if (redirect) return <Navigate to={"/"}/>
+  const handleEdit = async (e) => {
+    e.preventDefault();
+    const data = new FormData();
+    data.set("title", title);
+    data.set("summary", summary);
+    data.set("content", content);
+    data.set("file", files[0]);
+
+    const res = await fetch(`${import.meta.env.VITE_BASE_URL}/edit/${postId}`, {
+      method: "PUT",
+      body: data,
+      credentials: "include",
+    });
+
+    if (res.status === 200) seteditRedirect(true);
+  };
+
+ 
+  if (submitRedirect) return <Navigate to="/" />;
+  if (editRedirect) return <Navigate to={`/profile/${user.id}`} />;
 
   return (
-    <div className="bg-gray-100 flex justify-center h-screen w-screen">
+    <div className="bg-gray-100 flex justify-center h-max w-screen">
       <form
         onSubmit={(e) => handleSubmit(e)}
         className="flex flex-col gap-2 mt-10 w-11/12 "
@@ -67,20 +131,23 @@ export default function CreatePage() {
         <input
           placeholder="Title"
           type="Title"
-          onChange={(e) => settitle(e.target.value)}
-          className="bg-gray-50 w-full border input"
+          onChange={(e) => setTitle(e.target.value)}
+          className="bg-gray-50 w-full border input p-2 rounded-xl"
+          value={title}
         />
         <input
-          onChange={(e) => setsummary(e.target.value)}
+          onChange={(e) => setSummary(e.target.value)}
           placeholder="Summary"
           type="Summary"
-          className="bg-gray-50 w-full border input"
+          className="bg-gray-50 w-full border input  p-2 rounded-xl"
+          value={summary}
         />
         <input
-          onChange={(e) => setfiles(e.target.files)}
+          onChange={(e) => setFiles(e.target.files)}
           type="file"
           placeholder="choose picture"
-          className="w-full border bg-gray-50 p-2 input"
+          //  value={files}
+          className="w-full border bg-gray-50 input  p-2 rounded-xl"
         />
         <ReactQuill
           theme="snow"
@@ -90,9 +157,22 @@ export default function CreatePage() {
           modules={modules}
           formats={formats}
         />
-        <button type="submit" className="btn btn-success text-white w-full">
-          Create Post
-        </button>
+        {isEdit ? (
+          <button
+          type="button"
+            onClick={(e) => handleEdit(e)}
+            className=" bg-green-400 p-2 text-center rounded-lg text-white w-full mt-4 mb-4"
+          >
+            Edit Post
+          </button>
+        ) : (
+          <button
+            type="submit"
+            className="bg-green-400 p-4 mt-4 mb rounded-lg text-white w-full"
+          >
+            Create Post
+          </button>
+        )}
       </form>
     </div>
   );

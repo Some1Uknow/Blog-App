@@ -9,6 +9,7 @@ import RegisterForm from "./Pages/RegisterForm.jsx";
 import { UserContextProvider } from "./Provider.jsx";
 import CreatePage from "./Pages/CreatePage.jsx";
 import BlogPage from "./Pages/BlogPage.jsx";
+import ProfilePage from "./Pages/ProfilePage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -30,8 +31,16 @@ const router = createBrowserRouter([
   },
   {
     path: "/blogpost/:id",
-    element: <BlogPage/>,
+    element: <BlogPage />,
   },
+  {
+    path: "/profile/:id",
+    element: <ProfilePage />,
+  },
+  {
+    path: 'edit/:id',
+    element: <CreatePage/>,
+  }
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(

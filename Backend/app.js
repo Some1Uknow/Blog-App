@@ -35,7 +35,7 @@ app.get("/", (req, res) => {
 });
 
 var corsOptions = {
-  origin: "http://localhost:5173",
+  origin: process.env.FRONTEND_URL,
   optionsSuccessStatus: 200,
   credentials: true,
 };
@@ -152,7 +152,7 @@ app.get("/users/:id", async (req, res) => {
     if (!userDetails) {
       return res.status(404).json({ message: "User not found" });
     }
-    res.status(200).json({ message: "Successfully found the User", userDetails });
+    res.status(200).json({ userDetails });
   } catch (error) {
     console.error("Cannot find the user", error);
     res.status(400).json({ message: "The User is invalid" });
@@ -170,5 +170,53 @@ app.get("/blogs/:id", async (req, res) => {
   } catch (error) {
     console.error("Error fetching blog:", error);
     res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+app.get("/userblogs/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const blog = await blogModel.find({ author: id });
+    if (!blog) {
+      return res.status(404).json({ message: "Blog not found" });
+    }
+    res.status(200).json(blog);
+  } catch (error) {
+    console.error("Error fetching blog:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+app.delete("/delete/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const blog = await blogModel.findByIdAndDelete(id);
+    if (!blog) {
+      return res.status(404).json({ message: "Blog not found" });
+    }
+    res
+      .status(200)
+      .json({ message: "Blog deleted successfully", deletedBlog: blog });
+  } catch (error) {
+    console.error("Error deleting blog:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+app.put("/edit/:id", upload.single("file"), async (req, res) => {
+  const { title, summary, content } = req.body;
+  const file = req.file.path;
+  try {
+    const updatedPost = await blogModel.findByIdAndUpdate(req.params.id, {
+      title,
+      summary,
+      content,
+      imagePath: file,
+    });
+    res.status(200).json(updatedPost);
+    console.log("updated");
+  } catch (error) {
+    console.error("Error updating blog post:", error);
+    res.status(500).send("Internal Server Error");
   }
 });

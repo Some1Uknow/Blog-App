@@ -14,10 +14,10 @@ const Header = () => {
         setUser(userInfo);
       });
     });
-  }
+  };
 
   useEffect(() => {
-  fetchUserProfile();
+    fetchUserProfile();
   }, []);
 
   function logOut() {
@@ -26,7 +26,6 @@ const Header = () => {
       method: "POST",
     });
     setUser(null);
-    setloggedIn(false);
   }
 
   const username = user?.username;
@@ -48,6 +47,10 @@ const Header = () => {
               onClick={() => logOut()}
             >
               Logout
+            </button>
+            <button className="hover:underline">
+              {" "}
+              <Link to={`/profile/${user.id}`}>{username}</Link>
             </button>
           </div>
         ) : (
