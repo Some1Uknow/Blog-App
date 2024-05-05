@@ -1,8 +1,5 @@
 import Header from "./Header";
 const Home = () => {
-
-  
-  console.log(import.meta.env.VITE_BASE_URL);
   
   return (
     <div className="h-screen">
