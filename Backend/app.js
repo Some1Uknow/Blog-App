@@ -220,3 +220,22 @@ app.put("/edit/:id", upload.single("file"), async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
+
+app.get("/profile/:id", async (req, res) => {
+  const userId = req.params.id;
+  const userProfile = await User.findById(userId);
+  if (!userProfile) res.status(400).json({ message: "User doesnt exists" });
+  res.status(200).json(userProfile);
+});
+
+app.put("/profile/:id", async (req, res) => {
+  const { bio, username, email } = req.body;
+  const userId = req.params.id;
+  const userProfile = await User.findByIdAndUpdate(userId, {
+    bio,
+    username,
+    email,
+  });
+  if (!userProfile) res.status(400).json({ message: "User doesnt exists" });
+  res.status(200).json({message: "Profile Updated"});
+});

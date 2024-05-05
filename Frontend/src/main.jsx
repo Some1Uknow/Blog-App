@@ -10,6 +10,7 @@ import { UserContextProvider } from "./Provider.jsx";
 import CreatePage from "./Pages/CreatePage.jsx";
 import BlogPage from "./Pages/BlogPage.jsx";
 import ProfilePage from "./Pages/ProfilePage.jsx";
+import EditPage from "./Pages/EditPage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -40,7 +41,11 @@ const router = createBrowserRouter([
   {
     path: 'edit/:id',
     element: <CreatePage/>,
-  }
+  },
+  {
+    path: "/editprofile/:id",
+    element: <EditPage />,
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(

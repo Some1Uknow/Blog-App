@@ -17,7 +17,7 @@ const Header = () => {
   };
 
   useEffect(() => {
-    fetchUserProfile();
+   fetchUserProfile();
   }, []);
 
   function logOut() {
