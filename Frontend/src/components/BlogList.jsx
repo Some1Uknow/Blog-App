@@ -20,7 +20,7 @@ const BlogList = () => {
 
   return (
     <div className="px-20 h-max">
-      <h1 className="text-xl font-semibold pb-5">Recent Blog Posts</h1>
+      <h1 className="text-2xl font-bold p-5">Recent Blog Posts</h1>
       <div className="flex flex-col">
         {blogPosts.map((post) => (
           <div key={post._id}>

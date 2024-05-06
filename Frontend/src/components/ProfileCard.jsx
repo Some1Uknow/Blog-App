@@ -11,7 +11,7 @@ export default function ProfileCard({
   userId,
 }) {
   return (
-    <div className=" w-1/2">
+    <div className="mt-6 w-1/2">
       <div className="mx-auto border rounded-lg shadow-lg flex flex-row gap-1 items-center">
         <div className="border-r w-1/2 flex flex-col items-center p-4">
           {" "}
