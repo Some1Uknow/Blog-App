@@ -29,8 +29,8 @@ const BlogPost = ({
   const imgPath = `${import.meta.env.VITE_BASE_URL}/${imgSrc}`;
 
   return (
-    <div className="bg-white w-2/3 flex flex-row justify-start border-gray-200 rounded-lg mb-5">
-      <div className="w-1/2 h-full">
+    <div className="bg-white flex flex-row justify-start border-gray-200 rounded-lg mb-5">
+      <div className="w-1/4 h-full">
         <img
           className="rounded-t-lg object-cover w-full h-full"
           src={imgPath}
@@ -51,7 +51,7 @@ const BlogPost = ({
         </div>
 
         <Link to={`/blogpost/${id}`}>
-          <button className="text-xs text-center inline-flex items-center">
+          <button className="text-xs text-center inline-flex items-center underline">
             Read more
           </button>
         </Link>

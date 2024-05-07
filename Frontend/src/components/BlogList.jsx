@@ -23,7 +23,7 @@ const BlogList = () => {
       <h1 className="text-2xl font-bold p-5">Recent Blog Posts</h1>
       <div className="flex flex-col">
         {blogPosts.map((post) => (
-          <div key={post._id}>
+          <div key={post._id} className="w-3/5">
             <BlogPost
               id={post._id}
               imgSrc={post.imagePath}

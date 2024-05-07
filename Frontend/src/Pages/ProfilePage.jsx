@@ -81,7 +81,7 @@ export default function ProfilePage() {
                 userBlogs.map((post) => (
                   <div
                     key={post._id}
-                    className="flex flex-row items-center ml-10 shadow-md rounded-xl p-2"
+                    className="flex flex-col items-center ml-10 shadow-md rounded-xl p-2"
                   >
                     <BlogPost
                       id={post._id}
@@ -94,14 +94,14 @@ export default function ProfilePage() {
                     />
                     <div key={post._id} className="flex flex-row gap-2">
                       <Link to={`/edit/${post._id}`}>
-                        <button className="bg-blue-600 p-2 rounded-lg h-max w-max flex flex-row items-center text-white">
+                        <button className="bg-blue-600 p-2 rounded-lg flex flex-row items-center text-white">
                           Edit Post <MdEdit />
                         </button>
                       </Link>
 
                       <button
                         onClick={() => handleDelete(post._id)}
-                        className="bg-red-400 p-2 rounded-lg h-max flex flex-row items-center text-white w-max"
+                        className="bg-red-400 p-2 rounded-lg flex flex-row items-center text-white"
                       >
                         Delete Post <MdDelete />
                       </button>
